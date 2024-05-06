@@ -1,0 +1,85 @@
+import React from "react"; // Import React for component creation
+import { Text, View, Image, Pressable } from "react-native"; // Import UI components from React Native
+import { AntDesign } from "@expo/vector-icons"; // Import icons from Expo Vector Icons
+import styles from "./styles"; // Import custom styles for the component
+import { useNavigation } from "@react-navigation/native"; // Import navigation hook
+
+// CoinItem component to display information about a single cryptocurrency
+const CoinItem = ({ marketCoin }) => {
+  // Destructure properties from the marketCoin object passed as props
+  const {
+    id,
+    name,
+    current_price,
+    market_cap_rank,
+    price_change_percentage_24h,
+    symbol,
+    market_cap,
+    image,
+  } = marketCoin;
+
+  const navigation = useNavigation(); // Get navigation object using the hook
+
+  // Function to determine color based on price change percentage
+  const percentageColor =
+    price_change_percentage_24h < 0 ? "#ea3943" : "#16c784" || 'white'; // Red for negative, green for positive, fallback white
+
+  // Function to format market capitalization value for readability
+  const normalizeMarketCap = (marketCap) => {
+    if (marketCap > 1e12) {
+      return `${(marketCap / 1e12).toFixed(3)} T`; // Trillion
+    } else if (marketCap > 1e9) {
+      return `${(marketCap / 1e9).toFixed(3)} B`; // Billion
+    } else if (marketCap > 1e6) {
+      return `${(marketCap / 1e6).toFixed(3)} M`; // Million
+    } else if (marketCap > 1e3) {
+      return `${(marketCap / 1e3).toFixed(3)} K`; // Thousand
+    } else {
+      return marketCap; // No formatting for small values
+    }
+  };
+
+  // JSX for rendering the coin item
+  return (
+    <Pressable // Make the entire item clickable
+      style={styles.coinContainer} // Apply styles from external file
+      onPress={() => navigation.navigate("CoinDetailedScreen", { coinId: id })} // Navigate to CoinDetailedScreen on press, passing coin ID
+    >
+      <Image
+        source={{ uri: image }} // Set image source from coin data
+        style={{ // Style the image
+          height: 30,
+          width: 30,
+          marginRight: 10,
+          alignSelf: "center",
+        }}
+      />
+      <View>
+        <Text style={styles.title}>{name}</Text>  {/* Display coin name */}
+        <View style={{ flexDirection: "row" }}>  {/* Row for rank, symbol, and price change */}
+          <View style={styles.rankContainer}>
+            <Text style={styles.rank}>{market_cap_rank}</Text>  {/* Display market cap rank */}
+          </View>
+          <Text style={styles.text}>{symbol.toUpperCase()}</Text>  {/* Display coin symbol in uppercase */}
+          <AntDesign // Display icon based on price change
+            name={price_change_percentage_24h < 0 ? "caretdown" : "caretup"}
+            size={12}
+            color={percentageColor}
+            style={{ alignSelf: "center", marginRight: 5 }}
+          />
+          <Text style={{ color: percentageColor }}>  {/* Display price change percentage with color based on direction */}
+            {price_change_percentage_24h?.toFixed(2)}%
+          </Text>
+        </View>
+      </View>
+      <View style={{ marginLeft: "auto", alignItems: "flex-end" }}> {/* Align price and market cap to the right */}
+        <Text style={styles.title}>{current_price}</Text>  {/* Display current price */}
+        <Text style={{ color: "white" }}>  {/* Display market cap with white color */}
+          MCap {normalizeMarketCap(market_cap)}
+        </Text>
+      </View>
+    </Pressable>
+  );
+};
+
+export default CoinItem; // Export the CoinItem component for use in other parts of your application
