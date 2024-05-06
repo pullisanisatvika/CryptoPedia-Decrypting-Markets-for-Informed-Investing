@@ -1,0 +1,57 @@
+import React from "react"; // Import React for component creation
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"; // Import bottom tab navigator from React Navigation
+import HomeScreen from "../screens/HomeScreen"; // Import HomeScreen component from its location
+import WatchlistScreen from "../screens/WatchlistScreen"; // Import WatchlistScreen component from its location
+import PortfolioScreen from "../screens/PortfolioScreen"; // Import PortfolioScreen component from its location
+import { Entypo, FontAwesome, Foundation } from "@expo/vector-icons"; // Import icons from Expo Vector Icons
+
+// Create a bottom tab navigator instance
+const Tab = createBottomTabNavigator();
+
+// BottomTabNavigator component to define the bottom tab navigation structure
+const BottomTabNavigator = () => {
+  return (
+    <Tab.Navigator // Create a tab navigator instance
+      initialRouteName="Home" // Set the initial screen to "Home"
+      screenOptions={{ // Define default options for all screens within the navigator
+        headerShown: false, // Hide headers for all screens
+        tabBarActiveTintColor: "white", // Set active tab icon color to white
+        tabBarInactiveTintColor: "grey", // Set inactive tab icon color to grey
+        tabBarStyle: { // Style the tab bar container
+          backgroundColor: "#181818", // Set background color to dark gray
+        },
+      }}
+    >
+      {/* Define each tab screen */}
+      <Tab.Screen // Home tab
+        name="Home"
+        component={HomeScreen} // Set the component to render for the "Home" tab
+        options={{ // Define options specific to the "Home" tab
+          tabBarIcon: ({ focused, color }) => ( // Function to render the tab icon
+            <Entypo name="home" size={focused ? 30 : 25} color={color} /> // Use Entypo "home" icon, adjust size and color based on focus state
+          ),
+        }}
+      />
+      <Tab.Screen // Portfolio tab
+        name="Portfolio"
+        component={PortfolioScreen}
+        options={{
+          tabBarIcon: ({ focused, color }) => ( // Function to render the tab icon
+            <Foundation name="graph-pie" size={focused ? 35 : 30} color={color} /> // Use Foundation "graph-pie" icon, adjust size and color based on focus state
+          ),
+        }}
+      />
+      <Tab.Screen // Watchlist tab
+        name="Watchlist"
+        component={WatchlistScreen}
+        options={{
+          tabBarIcon: ({ focused, color }) => ( // Function to render the tab icon
+            <FontAwesome name="star" size={focused ? 30 : 25} color={color} /> // Use FontAwesome "star" icon, adjust size and color based on focus state
+          ),
+        }}
+      />
+    </Tab.Navigator>
+  );
+};
+
+export default BottomTabNavigator; // Export the BottomTabNavigator component for use in your app
