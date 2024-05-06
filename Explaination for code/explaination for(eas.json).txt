@@ -1,0 +1,49 @@
+JavaScript
+{
+  // Configuration for the Expo CLI
+  "cli": {
+    "version": ">= 0.46.0"   // Require a minimum CLI version (likely for compatibility)
+  },
+
+  // Build configuration for different environments
+  "build": {
+    "development": {  // Development environment settings
+      "developmentClient": true,  // Enable development mode features during development builds
+      "distribution": "internal"   // Distribute only to internal testers (not public)
+    },
+    "preview": {      // Preview environment settings (similar to development)
+      "distribution": "internal"   // Distribute only to internal testers (not public)
+    },
+    "production": {}               // No configuration explicitly defined for production builds
+  },
+
+  // Configuration for submitting the app to app stores
+  "submit": {
+    "production": {                 // Settings for production submissions
+      "ios": {                        // iOS specific settings
+        "appleId": "savinvadim1312@gmail.com",  // Apple ID for app submission
+        "ascAppId": "1608390544",          // App Store Connect app ID
+        "appleTeamId": "J5KS3PTAAH"         // Apple Developer Team ID
+      },
+      "android": {                    // Android specific settings
+        "serviceAccountKeyPath": "../../Crypto Price Tracker Assets/Android/Keys and Builds/Key/pc-api-6462255596669092659-988-6b10d754c795.json"   // Path to the Android service account key file (likely for authentication during submission)
+      }
+    }
+  }
+}
+Use code with caution.
+content_copy
+Explanation:
+
+cli: This section sets the minimum required version for the Expo CLI to be compatible with this project's configuration.
+build: This section defines configurations for different build environments:
+development: This specifies settings for development builds. Enabling developmentClient allows features like live reloading while developing your app. Setting distribution to internal means the app will only be accessible to testers you invite.
+preview: This likely behaves similarly to development builds, targeting internal testers.
+production: No explicit configuration is provided for production builds, suggesting that defaults or environment variables might be used here.
+submit: This section defines settings for submitting your app to app stores in production:
+production: This defines settings for production submissions.
+ios: This section provides the Apple ID, App Store Connect app ID, and Apple Developer Team ID needed for submitting the app to the iOS App Store.
+android: This section specifies the path to the Android service account key file. This key is likely used for authentication with Google Play Store services during the submission process.
+Important Note:
+
+Exposing sensitive information like Apple IDs, App Store Connect app IDs, and service account key paths in a public code snippet is a security risk. It's recommended to replace these values with placeholders or environment variables that are not checked into version control systems.

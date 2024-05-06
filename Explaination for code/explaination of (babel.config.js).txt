@@ -1,0 +1,20 @@
+JavaScript
+module.exports = function(api) {
+  // Enable Babel caching for faster subsequent builds
+  api.cache(true);
+
+  // Return the Babel configuration object
+  return {
+    presets: ['babel-preset-expo'], // Use the "babel-preset-expo" preset
+    plugins: ['react-native-reanimated/plugin'], // Add the "react-native-reanimated/plugin" plugin
+  };
+};
+Use code with caution.
+content_copy
+Explanation:
+module.exports = function(api): This line exports a function that takes an argument named api. This api object likely provides access to various Babel configuration options.
+api.cache(true);: This line enables caching for Babel. Caching speeds up subsequent builds because Babel doesn't need to re-analyze unchanged code.
+return { ... }: This line returns an object containing the actual Babel configuration.
+presets: ['babel-preset-expo'],: This line specifies that we want to use the babel-preset-expo preset. This preset includes a set of Babel plugins that are pre-configured for use with Expo projects. It likely handles necessary transformations for React Native development.
+plugins: ['react-native-reanimated/plugin'],: This line adds the react-native-reanimated/plugin plugin to the configuration. The react-native-reanimated library provides performance optimizations for animations and gestures in React Native apps.
+In summary, this code snippet configures Babel to work with an Expo project by enabling caching, using the babel-preset-expo for common transformations, and adding the react-native-reanimated/plugin for animation optimizations.

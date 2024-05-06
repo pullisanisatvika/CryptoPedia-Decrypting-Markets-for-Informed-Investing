@@ -1,0 +1,57 @@
+Main Entry Point:
+
+JavaScript
+"main": "node_modules/expo/AppEntry.js",
+Use code with caution.
+content_copy
+This specifies the main entry point for the application. In this case, it points to node_modules/expo/AppEntry.js, which is likely an Expo-provided script for bootstrapping the app.
+Scripts:
+
+JavaScript
+"scripts": {
+  "start": "expo start",
+  "android": "expo start --android",
+  "ios": "expo start --ios",
+  "web": "expo start --web",
+  "eject": "expo eject"
+},
+Use code with caution.
+content_copy
+This section defines various commands you can run using npm run or yarn run.
+start: Starts the development server using Expo.
+android, ios, web: Start the development server for the specified platform (Android, iOS, or web).
+eject: Ejects the project from Expo, creating a standalone React Native project (not recommended for most Expo projects).
+Dependencies:
+
+JavaScript
+"dependencies": {
+  // ... list of dependencies ...
+},
+Use code with caution.
+content_copy
+This section lists all the external libraries and packages your project requires to function. Here are some notable:
+@expo-google-fonts/inter: For using the Inter font from Google Fonts.
+@react-navigation/*: Packages for handling navigation within your app.
+axios: A popular HTTP client library for making network requests.
+expo: The core Expo SDK for building React Native apps.
+react, react-dom, react-native: The core React and React Native libraries.
+Many other packages specific to animation, gestures, storage, UI components, charting, etc.
+Note: The react-native dependency is specified as a specific version from a GitHub archive. This is likely because Expo uses a custom fork of React Native.
+Dev Dependencies:
+
+JavaScript
+"devDependencies": {
+  "@babel/core": "^7.12.9"
+},
+Use code with caution.
+content_copy
+This section lists dependencies that are only needed for development tasks, such as compilation or linting.
+@babel/core: Likely used for code transpilation during development.
+Private:
+
+JavaScript
+"private": true
+Use code with caution.
+content_copy
+This sets the package as private, meaning it won't be published to public registries like npmJS.
+Overall, this package.json file defines the project's dependencies, scripts, and other key configurations, making it a crucial part of managing your Expo app.

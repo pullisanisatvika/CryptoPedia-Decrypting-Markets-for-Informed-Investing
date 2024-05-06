@@ -1,0 +1,83 @@
+Imports:
+
+JavaScript
+import { StatusBar } from "expo-status-bar";
+import React from "react";
+import { StyleSheet, View, ActivityIndicator } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import Navigation from "./src/navigation"; // Likely custom navigation component
+import WatchlistProvider from "./src/Contexts/WatchlistContext"; // Likely custom context for watchlist data
+import { RecoilRoot } from 'recoil'
+import { useFonts, Inter_900Black } from '@expo-google-fonts/inter';
+Use code with caution.
+content_copy
+StatusBar: From expo-status-bar, this component allows you to manage the app's status bar appearance (color, visibility, etc.).
+React: The core library for building user interfaces in React Native.
+StyleSheet, View, ActivityIndicator: These components from react-native are used for styling, creating visual elements (like a view container), and displaying a loading indicator, respectively.
+NavigationContainer: From @react-navigation/native, this component is essential for setting up navigation between different screens in your app.
+Navigation: This is likely a custom component you've created for handling app navigation logic (imported from ./src/navigation).
+WatchlistProvider: This is likely a custom context provider you've created to manage watchlist data throughout your app (imported from ./src/Contexts/WatchlistContext).
+RecoilRoot: From recoil, this component is the root provider for managing state using Recoil, a state management library.
+useFonts, Inter_900Black: From @expo-google-fonts/inter, these functions help load specific fonts (Inter_900Black in this case) and track their loading status.
+App Component:
+
+JavaScript
+export default function App() {
+  let [fontsLoaded] = useFonts({
+    Inter_900Black,
+    DroidSans: require('./assets/fonts/DroidSans.ttf')
+  });
+
+  if (!fontsLoaded) {
+    return <ActivityIndicator size={'large'} />;
+  }
+
+  return (
+    <NavigationContainer
+      theme={{
+        colors: {
+          background: "#121212",
+        },
+      }}
+    >
+      <RecoilRoot>
+        <WatchlistProvider>
+          <View style={styles.container}>
+            <Navigation />
+            <StatusBar style="light" />
+          </View>
+        </WatchlistProvider>
+      </RecoilRoot>
+    </NavigationContainer>
+  );
+}
+Use code with caution.
+content_copy
+useFonts Hook: This hook loads the specified fonts (Inter_900Black from Google Fonts and DroidSans from a local file) and returns an array where the first element (fontsLoaded) indicates whether both fonts have finished loading.
+Conditional Loading: While fonts are loading, an ActivityIndicator is displayed to provide visual feedback to the user.
+Navigation Container: Encapsulates the app's navigation structure, potentially with a custom navigation component (Navigation).
+Recoil and Watchlist Provider: These providers wrap the app's content, likely making Recoil state and watchlist data accessible throughout your components.
+Main View: A View component serves as the main container for the app's content, styled using styles.container.
+Navigation: Renders the custom Navigation component to manage screen transitions.
+StatusBar: Configured to use a "light" style (white text or icons).
+Styles:
+
+JavaScript
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#121212",
+    paddingTop: 50,
+  },
+});
+Use code with caution.
+content_copy
+This defines a style named container that applies to the main View component:
+flex: 1: Makes the view take up the entire available space.
+backgroundColor: "#121212": Sets the background color to dark gray.
+paddingTop: 50: Adds 50 pixels of padding at the top.
+Key Points:
+
+This code creates a React Native app that likely manages navigation, potentially uses Recoil state management, and provides a watchlist feature.
+Fonts are loaded before rendering the main UI for a smoother user experience.
+The app's primary colors are set to a dark theme.

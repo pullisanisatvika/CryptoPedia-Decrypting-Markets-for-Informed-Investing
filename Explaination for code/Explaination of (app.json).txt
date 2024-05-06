@@ -1,0 +1,52 @@
+JavaScript
+{
+  "expo": {  // Key for Expo configuration
+
+    // Basic app information
+    "name": "notJust Crypto Tracker",  // App's display name
+    "slug": "notJustCryptoTracker",    // Unique identifier for app store
+    "version": "1.0.3",                // App version
+
+    // Device orientation preference
+    "orientation": "portrait",        // Only allow portrait mode
+
+    // App icon configuration
+    "icon": "./assets/icon.png",      // Path to the app icon image
+
+    // Splash screen configuration
+    "splash": {
+      "image": "./assets/splash.png",  // Path to the splash screen image
+      "resizeMode": "contain",       // How to scale the splash screen image (fit within bounds)
+      "backgroundColor": "#29303A"   // Background color for the splash screen
+    },
+
+    // Update behavior
+    "updates": {
+      "fallbackToCacheTimeout": 0     // Don't wait for updates upon app launch
+    },
+
+    // Asset management
+    "assetBundlePatterns": [          // Include all assets in the bundle
+      "**/*"
+    ],
+
+    // Platform-specific configurations
+    "ios": {
+      "supportsTablet": true,        // Support tablets on iOS
+      "bundleIdentifier": "com.notJust.cryptoTracker",  // Bundle identifier for App Store
+      "buildNumber": "7"              // Internal build number (likely for tracking)
+    },
+    "android": {
+      "package": "com.notJust.cryptotracker",   // Package name for Google Play
+      "versionCode": 5,                         // Version code for Google Play
+      "adaptiveIcon": {                         // Configuration for adaptive icons
+        "foregroundImage": "./assets/icon.png",  // Path to the foreground image
+        "backgroundColor": "#29303A"            // Background color for the icon
+      }
+    },
+    "web": {
+      "favicon": "./assets/icon.png"   // Path to the favicon for web builds
+    }
+  }
+}
+This configuration defines various aspects of your Expo app, including its name, icon, splash screen, update behavior, and platform-specific settings for iOS and Android. It also includes a configuration for web builds (if applicable).
