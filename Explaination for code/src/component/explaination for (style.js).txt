@@ -1,0 +1,41 @@
+import { StyleSheet } from 'react-native'; // Import StyleSheet for creating styles
+
+const styles = StyleSheet.create({
+  // Style for the title text
+  title: {
+    color: "white", // Set text color to white
+    fontSize: 16, // Set font size to 16px
+    fontWeight: "bold", // Make the text bold
+    marginBottom: 3, // Add a small margin bottom
+  },
+
+  // Style for regular text
+  text: {
+    color: "white", // Set text color to white
+    marginRight: 5, // Add a small margin right
+  },
+
+  // Style for the overall coin container
+  coinContainer: {
+    flexDirection: "row", // Arrange child elements horizontally
+    borderBottomWidth: StyleSheet.hairlineWidth, // Add a thin border at the bottom
+    borderBottomColor: "#282828", // Set the border color to dark gray
+    padding: 15, // Add padding to all sides
+  },
+
+  // Style for the market cap rank text
+  rank: {
+    fontWeight: 'bold', // Make the text bold
+    color: 'white', // Set text color to white
+  },
+
+  // Style for the container of the market cap rank text
+  rankContainer: {
+    backgroundColor: '#585858', // Set background color to a darker gray
+    paddingHorizontal: 5, // Add horizontal padding
+    borderRadius: 5, // Add rounded corners
+    marginRight: 5, // Add a small margin right
+  },
+});
+
+export default styles; // Export the styles object for use in other components
