@@ -1,0 +1,77 @@
+import React, { useContext, createContext, useState, useEffect } from 'react'; // Import React hooks and AsyncStorage
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+// Create a context for watchlist data
+const WatchlistContext = createContext();
+
+// Hook to access watchlist data from any component within the provider
+export const useWatchlist = () => useContext(WatchlistContext);
+
+// WatchlistProvider component to manage watchlist state and provide access to it
+const WatchlistProvider = ({ children }) => {
+  // State variable to store watchlist coin IDs as an array
+  const [watchlistCoinIds, setWatchlistCoinIds] = useState([]);
+
+  // Function to retrieve watchlist data from AsyncStorage
+  const getWatchlistData = async () => {
+    try {
+      // Get data from AsyncStorage with key "@watchlist_coins"
+      const jsonValue = await AsyncStorage.getItem("@watchlist_coins");
+
+      // Parse data if it exists, otherwise set an empty array
+      setWatchlistCoinIds(jsonValue != null ? JSON.parse(jsonValue) : []);
+    } catch (e) {
+      // Log any errors encountered during data retrieval
+      console.log(e);
+    }
+  };
+
+  // useEffect hook to fetch watchlist data on component mount
+  useEffect(() => {
+    getWatchlistData();
+  }, []);  // Empty dependency array to run only once on mount
+
+  // Function to store a new coin ID in the watchlist (AsyncStorage)
+  const storeWatchlistCoinId = async (coinId) => {
+    try {
+      // Create a new watchlist by adding the coin ID to the existing array
+      const newWatchlist = [...watchlistCoinIds, coinId];
+
+      // Convert the new watchlist to a JSON string for storage
+      const jsonValue = JSON.stringify(newWatchlist);
+
+      // Save the JSON string in AsyncStorage with key "@watchlist_coins"
+      await AsyncStorage.setItem('@watchlist_coins', jsonValue);
+
+      // Update the state with the new watchlist
+      setWatchlistCoinIds(newWatchlist);
+    } catch (e) {
+      // Log any errors encountered during storage
+      console.log(e);
+    }
+  };
+
+  // Function to remove a coin ID from the watchlist (AsyncStorage)
+  const removeWatchlistCoinId = async (coinId) => {
+    // Filter out the coin ID from the current watchlist
+    const newWatchlist = watchlistCoinIds.filter((coinIdValue) => coinIdValue !== coinId);
+
+    // Convert the filtered watchlist to a JSON string for storage
+    const jsonValue = JSON.stringify(newWatchlist);
+
+    // Save the JSON string in AsyncStorage with key "@watchlist_coins"
+    await AsyncStorage.setItem('@watchlist_coins', jsonValue);
+
+    // Update the state with the filtered watchlist
+    setWatchlistCoinIds(newWatchlist);
+  };
+
+  // Provide watchlist data and functions to child components through context
+  return (
+    <WatchlistContext.Provider value={{ watchlistCoinIds, storeWatchlistCoinId, removeWatchlistCoinId }}>
+      {children}
+    </WatchlistContext.Provider>
+  );
+};
+
+export default WatchlistProvider;
