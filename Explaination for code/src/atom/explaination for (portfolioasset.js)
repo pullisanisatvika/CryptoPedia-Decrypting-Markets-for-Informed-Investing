@@ -1,0 +1,55 @@
+import { atom, selector } from 'recoil'; // Import Recoil for state management
+import AsyncStorage from '@react-native-async-storage/async-storage'; // Import AsyncStorage for data storage
+import { getWatchlistedCoins } from '../services/requests'; // Import function to fetch coin data (presumably from an API)
+
+// Recoil state for bought portfolio assets retrieved from storage
+export const allPortfolioBoughtAssetsInStorage = atom({
+  key: 'allPortfolioBoughtAssetsInStorage',
+  default: allPortfolioBoughtAssets,  // Initially set to the value retrieved by the `allPortfolioBoughtAssets` selector (defined below)
+});
+
+// Recoil selector to retrieve bought portfolio assets from storage
+export const allPortfolioBoughtAssets = selector({
+  key: 'allPortfolioBoughtAssets',
+  get: async () => {
+    const jsonValue = await AsyncStorage.getItem('@portfolio_coins'); // Get data from AsyncStorage with key "@portfolio_coins"
+    return jsonValue != null ? JSON.parse(jsonValue) : []; // Parse data or return empty array if no data exists
+  }
+});
+
+// Recoil selector to retrieve and process portfolio asset data with market information
+export const allPortfolioBoughtAssetsFromAPI = selector({
+  key: 'allPortfolioBoughtAssetsFromAPI',
+  get: async ({ get }) => {
+    // Get bought portfolio assets from storage using the previously defined selector
+    const boughtPortfolioAssets = get(allPortfolioBoughtAssetsInStorage);
+
+    // Extract IDs of all bought assets into a comma-separated string
+    const boughtAssetIds = boughtPortfolioAssets.map((portfolioAsset) => portfolioAsset.id).join(',');
+
+    // Fetch market data for the bought assets using a separate function (presumably makes an API call)
+    const portfolioAssetsMarketData = await getWatchlistedCoins(1, boughtAssetIds);
+
+    // Process the retrieved market data and combine it with stored asset information
+    const boughtAssets = boughtPortfolioAssets.map((boughtAsset) => {
+      // Find the matching market data for the current bought asset
+      const portfolioAsset = portfolioAssetsMarketData.filter((item) => boughtAsset.id === item.id)[0];
+
+      // Combine stored asset data with fetched market data
+      return {
+        ...boughtAsset,  // Spread operator to copy existing properties from boughtAsset
+        currentPrice: portfolioAsset.current_price,  // Add current price from market data
+        priceChangePercentage: portfolioAsset.price_change_percentage_24h,  // Add price change percentage from market data
+      };
+    });
+
+    // Sort the processed bought assets by their total value (quantity * price) in descending order
+    return boughtAssets.sort((item1, item2) => (item1.quantityBought * item1.currentPrice) < (item2.quantityBought * item2.currentPrice));
+  }
+});
+
+// Define the main portfolio assets state based on the processed data from `allPortfolioBoughtAssetsFromAPI`
+export const allPortfolioAssets = atom({
+  key: 'allPortfolioAssets',
+  default: allPortfolioBoughtAssetsFromAPI,  // Set the default value to be the result of `allPortfolioBoughtAssetsFromAPI` selector
+});
