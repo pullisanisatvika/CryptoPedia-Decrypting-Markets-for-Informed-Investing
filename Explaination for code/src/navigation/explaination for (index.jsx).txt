@@ -1,0 +1,47 @@
+import React from "react"; // Import React for component creation
+import { createNativeStackNavigator } from "@react-navigation/native-stack"; // Import stack navigator from React Navigation
+
+// Import screens used within the stack navigator
+import CoinDetailedScreen from "../screens/CoinDetailedScreen";
+import BottomTabNavigator from "./BottomTabNavigator"; // Import the previously defined BottomTabNavigator
+import AddNewAssetScreen from "../screens/AddNewAssetScreen";
+
+// Create a stack navigator instance
+const Stack = createNativeStackNavigator();
+
+// Navigation component to define the overall navigation structure
+const Navigation = () => {
+  return (
+    <Stack.Navigator initialRouteName="Root">  {/* Set the initial screen to "Root" */}
+      {/* Define the "Root" screen */}
+      <Stack.Screen
+        name="Root"
+        component={BottomTabNavigator} // Nest the BottomTabNavigator within the stack
+        options={{ headerShown: false }}  {/* Hide the header for the "Root" screen */}
+      />
+      {/* Define the CoinDetailedScreen */}
+      <Stack.Screen
+        name="CoinDetailedScreen"
+        component={CoinDetailedScreen}
+        options={{ headerShown: false }}  {/* Hide the header for CoinDetailedScreen */}
+      />
+      {/* Define the AddNewAssetScreen */}
+      <Stack.Screen
+        name="AddNewAssetScreen"
+        component={AddNewAssetScreen}
+        options={{  {/* Customize header options for AddNewAssetScreen */}
+          title: "Add New Asset",  // Set the header title
+          headerStyle: {  // Style the header container
+            backgroundColor: "#121212",  // Set background color to dark gray
+          },
+          headerTintColor: "white",  // Set text color to white
+          headerTitleStyle: {  // Style the header title
+            fontWeight: "bold",  // Make the title bold
+          },
+        }}
+      />
+    </Stack.Navigator>
+  );
+};
+
+export default Navigation; // Export the Navigation component for use in your app
