@@ -1,0 +1,79 @@
+import axios from "axios"; // Import Axios for making HTTP requests
+
+// Function to fetch detailed data for a specific coin
+export const getDetailedCoinData = async (coinId) => {
+  try {
+    // Make a GET request to CoinGecko API with coin ID and specific parameters
+    const response = await axios.get(`https://api.coingecko.com/api/v3/coins/${coinId}?localization=false&tickers=true&market_data=true&community_data=false&developer_data=false&sparkline=false`);
+    // Return the fetched data if successful
+    return response.data;
+  } catch (e) {
+    // Log any errors encountered during the request
+    console.log(e);
+  }
+};
+
+// Function to fetch market chart data for a specific coin within a time range
+export const getCoinMarketChart = async (coinId, selectedRange) => {
+  try {
+    // Make a GET request to CoinGecko API with coin ID, time range parameters, and desired data format
+    const response = await axios.get(`https://api.coingecko.com/api/v3/coins/${coinId}/market_chart?vs_currency=usd&days=${selectedRange}&interval=hourly`);
+    // Return the fetched data if successful
+    return response.data;
+  } catch (e) {
+    // Log any errors encountered during the request
+    console.log(e);
+  }
+};
+
+// Function to fetch general market data for a page of coins (default page 1)
+export const getMarketData = async (pageNumber = 1) => {
+  try {
+    // Make a GET request to CoinGecko API for market data with specific parameters
+    const response = await axios.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=50&page=${pageNumber}&sparkline=false&price_change_percentage=24h`);
+    // Return the fetched data if successful
+    return response.data;
+  } catch (e) {
+    // Log any errors encountered during the request
+    console.log(e);
+  }
+};
+
+// Function to fetch market data for a list of coin IDs (watchlist) from a specific page (default page 1)
+export const getWatchlistedCoins = async (pageNumber = 1, coinIds) => {
+  try {
+    // Make a GET request to CoinGecko API with coin IDs, pagination parameters, and desired data format
+    const response = await axios.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${coinIds}&order=market_cap_desc&per_page=50&page=${pageNumber}&sparkline=false&price_change_percentage=24h`);
+    // Return the fetched data if successful
+    return response.data;
+  } catch (e) {
+    // Log any errors encountered during the request
+    console.log(e);
+  }
+};
+
+// Function to fetch a list of all coins
+export const getAllCoins = async () => {
+  try {
+    // Make a GET request to CoinGecko API to retrieve a list of all coins with basic information
+    const response = await axios.get(`https://api.coingecko.com/api/v3/coins/list?include_platform=false`);
+    // Return the fetched data if successful
+    return response.data;
+  } catch (e) {
+    // Log any errors encountered during the request with a more prominent error message
+    console.error(e);
+  }
+};
+
+// Function to fetch OHLC (Open, High, Low, Close) candlestick data for a coin within a specified number of days (default 1 day)
+export const getCandleChartData = async (coinId, days = 1) => {
+  try {
+    // Make a GET request to CoinGecko API for OHLC data with coin ID, time range parameter, and desired data format
+    const response = await axios.get(`https://api.coingecko.com/api/v3/coins/${coinId}/ohlc?vs_currency=usd&days=${days}`);
+    // Return the fetched data if successful
+    return response.data;
+  } catch (e) {
+    // Log any errors encountered during the request
+    console.log(e);
+  }
+};
